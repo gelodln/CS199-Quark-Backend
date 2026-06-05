@@ -17,14 +17,14 @@ Deno.serve(async (req) => {
     if (error) return new Response(JSON.stringify({ error: error.message }), { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
 
     // Success Response
-    const response = [{
+    const response = {
       accessToken: data.session?.access_token,
       refreshToken: data.session?.refresh_token,
       user: { 
         id: data.user?.id, 
         role: data.user?.user_metadata.role 
       }
-    }];
+    };
 
     return new Response(JSON.stringify(response), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
   } catch (err) {
