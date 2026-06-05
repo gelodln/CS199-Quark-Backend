@@ -1,5 +1,53 @@
-# Quark: An AR Elementary Physics App – Backend
+# Quark Backend
 
-This backend system supports Quark, an Augmented Reality (AR) elementary physics learning application developed for academic research purposes. The infrastructure is built using Supabase, leveraging its PostgreSQL database, authentication services, storage, and Edge Functions for server-side logic.
+Quark is a backend infrastructure built on **Supabase Edge Functions** and **PostgreSQL** to support physics simulations in Unity 2022 LTS. It handles role-based authentication, persistent scene data, and learner attempt tracking.
 
-The backend manages secure user authentication, AR session tracking, physics interaction data storage, assessment processing, and learning analytics. Supabase Edge Functions are used to validate client requests, enforce role-based access control, compute mastery metrics, and handle structured data processing before database insertion.
+## Prerequisites
+
+Before setting up the project, ensure you have the following installed:
+
+*   **Docker Desktop**: Required to run the local Supabase stack.
+*   **Node.js (v18+)**: Required for CLI and dependency management.
+*   **Supabase CLI**: The primary tool for local development.
+    ```bash
+    npm install supabase --save-dev
+    ```
+
+## Installation & Setup
+
+1.  **Initialize the Project**:
+    ```bash
+    npx supabase init
+    ```
+
+2.  **Login to Supabase**:
+    ```bash
+    npx supabase login
+    ```
+
+3.  **Link to Remote Project**:
+    Replace `<your-project-id>` with the reference found in your Supabase Dashboard settings:
+    ```bash
+    npx supabase link --project-ref <your-project-id>
+    ```
+
+## Local Development
+
+1.  **Start Local Services**:
+    Launch the Postgres database, Auth service, and Edge Function runtime:
+    ```bash
+    npx supabase start
+    ```
+    *Note: The first run will download Docker images and may take several minutes.*
+
+2.  **Apply Database Schema**:
+    Push the relational model (USER, ROLE, SCENE, ATTEMPT tables) to your local instance:
+    ```bash
+    npx supabase db reset
+    ```
+
+3.  **Generate Type Definitions**:
+    Introspect your schema to create TypeScript types for your Edge Functions:
+    ```bash
+    npx supabase gen types typescript --local > supabase/functions/_shared/database.types.ts
+    ```
